@@ -27,7 +27,3 @@ class MailHelper(object):
     server.login(from_addr, password)
     server.sendmail(from_addr, [to_addr], msg.as_string())
     server.quit()
-
-MailHelper.send_email(subject='Alert',
-    content='this is alert', from_addr='18647246574@163.com',
-    to_addr='397283864@qq.com', nick_name='Herry')
