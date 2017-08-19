@@ -19,7 +19,7 @@ if abs( buy - data.get('last_buy', 0)) > app_config['buy_price_delta']:
   for k, v in app_config['email'].items():
     MailHelper.send_email(subject='the current buy price is %s' % buy,
       content='the current buy price is %s' % buy, from_addr='18647246574@163.com',
-      to_addr='397283864@qq.com', nick_name='Herry')
+      to_addr=v, nick_name='Herry')
 data['last_buy'] = buy
 with open('data', 'w') as f:
   pickle.dump(data, f)
