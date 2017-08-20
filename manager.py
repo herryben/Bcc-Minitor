@@ -5,7 +5,7 @@ from common.emailhelper import MailHelper
 from config import app_config
 data = {}
 try:
-  with open('data', 'r') as f:
+  with open('/home/haorui/Bcc-Minitor/data', 'r') as f:
     data = pickle.load(f)
 except Exception as e:
   pass
@@ -21,5 +21,5 @@ if abs( buy - data.get('last_buy', 0)) > app_config['buy_price_delta']:
       content='the current buy price is %s' % buy, from_addr='18647246574@163.com',
       to_addr=v, nick_name='Herry')
 data['last_buy'] = buy
-with open('data', 'w') as f:
+with open('/home/haorui/Bcc-Minitor/data', 'w') as f:
   pickle.dump(data, f)
