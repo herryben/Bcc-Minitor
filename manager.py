@@ -1,19 +1,31 @@
+#! /usr/bin/env python
+#-*- coding: UTF-8 -*-
+
 import requests
 import json
+import re
 import pickle
 from common.emailhelper import MailHelper
 from config import app_config
+
+def get_yun_bi_market_info():
+    r = requests.get('https://yunbi.com/markets/bcccny')
+    s = r.text
+    rgx = re.compile(r'''"bcccny":{"name":"BCC/CNY","base_unit":"bcc","quote_unit":"cny","low":(.*?)}};gon.asks''')
+    m = rgx.search(s)
+    return eval('{"low":'+m.group(1)+'}')
+
 data = {}
 try:
   with open(app_config['data_path'], 'r') as f:
     data = pickle.load(f)
 except Exception as e:
   pass
-print data, 'data'
-url = 'https://yunbi.com//api/v2/tickers/bcccny.json'
-response = requests.request("GET", url, timeout=5)
-result = json.loads(response.text)
-buy = float(result['ticker']['buy'])
+# print data, 'data'
+
+result = get_yun_bi_market_info()
+
+buy = float(result['last'])
 print buy, 'buy', result
 if abs( buy - data.get('last_buy', 0)) > app_config['buy_price_delta']:
   for k, v in app_config['email'].items():
